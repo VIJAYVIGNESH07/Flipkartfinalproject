@@ -12,8 +12,8 @@ import streamlit as st
 st.set_page_config(page_title="Product Detection App", layout="wide")
 
 # Load model
-model_path = 'my_model.keras'
-class_indices_path = 'class_indices.json'
+model_path = 'Brand/my_model.keras'
+class_indices_path = 'Brand/class_indices.json'
 excel_file = 'product_detection_results.xlsx'
 
 # Load model
