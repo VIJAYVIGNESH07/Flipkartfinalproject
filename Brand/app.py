@@ -8,14 +8,12 @@ import json
 from datetime import datetime
 import streamlit as st
 
-# Set Streamlit page configuration (must be the first command)
+# Set Streamlit page configuration
 st.set_page_config(page_title="Product Detection App", layout="wide")
-model_path = os.path.join(os.getcwd(), 'my_model.keras')
-json_path = os.path.join(os.getcwd(), 'class_indicies.json')
 
-# Load model
-model_path = 'Brand\my_model.keras'
-class_indices_path = 'Brand\class_indices.json'
+# Load model and class indices paths dynamically
+model_path = os.path.join(os.getcwd(), 'my_model.keras')
+class_indices_path = os.path.join(os.getcwd(), 'class_indices.json')
 excel_file = 'product_detection_results.xlsx'
 
 # Load model
@@ -23,7 +21,6 @@ excel_file = 'product_detection_results.xlsx'
 def load_prediction_model(model_path):
     try:
         model = load_model(model_path)
-        # st.success(f"Model loaded successfully from {model_path}")
         return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
@@ -36,14 +33,17 @@ def load_class_indices(class_indices_path):
         with open(class_indices_path, 'r') as f:
             class_indices = json.load(f)
             label_map = {v: k for k, v in class_indices.items()}
-            # st.success("Class indices loaded successfully.")
             return label_map
     except Exception as e:
         st.error(f"Error loading class indices: {e}")
         return None
 
-model = load_prediction_model(model_path)
-label_map = load_class_indices(class_indices_path)
+# Check if the model and class indices files exist or need to be uploaded
+if not os.path.exists(model_path) or not os.path.exists(class_indices_path):
+    st.warning("Model or class indices files not found in the current directory. Please upload them.")
+else:
+    model = load_prediction_model(model_path)
+    label_map = load_class_indices(class_indices_path)
 
 # Preprocess image
 def preprocess_image(img_path):
@@ -134,5 +134,3 @@ if uploaded_files and st.button("Submit for Detection"):
 
     # Save to Excel
     save_results_to_excel(df, excel_file)
-
-   
