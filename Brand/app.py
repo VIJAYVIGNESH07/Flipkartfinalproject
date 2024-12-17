@@ -10,10 +10,12 @@ import streamlit as st
 
 # Set Streamlit page configuration (must be the first command)
 st.set_page_config(page_title="Product Detection App", layout="wide")
+model_path = os.path.join(os.getcwd(), 'my_model.keras')
+json_path = os.path.join(os.getcwd(), 'class_indicies.json')
 
 # Load model
-model_path = 'Brand/my_model.keras'
-class_indices_path = 'Brand/class_indices.json'
+model_path = 'my_model.keras'
+class_indices_path = 'class_indices.json'
 excel_file = 'product_detection_results.xlsx'
 
 # Load model
